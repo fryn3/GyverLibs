@@ -245,6 +245,7 @@ public:
 #endif
 		}
 	}
+
 	inline __attribute__((always_inline))
 	void disableISR(uint8_t source = CHANNEL_A) {           			  // Disable timer interrupt , channel A or B
 		switch (source) {
@@ -261,11 +262,13 @@ public:
 #endif
 		}
 	}
+
 	inline __attribute__((always_inline))
 	void pause(void) {                   				  // Disable timer clock , not cleaning the counter
 		_timer1_clock = (TCCR1B & 0x07);    // Save timer clock settings
 		TCCR1B = (TCCR1B & 0xF8);       	// Clear timer clock bits
 	}
+
 	inline __attribute__((always_inline))
 	void resume(void) {                    				  // Return clock timer settings
 		TCCR1B = ((TCCR1B & 0xF8) |  _timer1_clock);  // Return clock timer settings
@@ -301,11 +304,11 @@ public:
 		case CHANNEL_B:
 			TCCR1A = (TCCR1A & 0xCF) | (mode << 4);
 			return;
-	#if defined(__AVR_ATmega2560__)
+#if defined(__AVR_ATmega2560__)
 		case CHANNEL_C:
 			TCCR1A = (TCCR1A & 0xF3) | (mode << 2);
 			return;
-	#endif
+#endif
 		}
 	}
 
@@ -318,11 +321,11 @@ public:
 		case CHANNEL_B:
 			TCCR1A = (TCCR1A & 0xCF);
 			return;
-	#if defined(__AVR_ATmega2560__)
+#if defined(__AVR_ATmega2560__)
 		case CHANNEL_C:
 			TCCR1A = (TCCR1A & 0xF3);
 			return;
-	#endif
+#endif
 		}
 	}
 
@@ -374,25 +377,30 @@ public:
 	void disableISR(bool source = CHANNEL_A) {             			  // Disable timer interrupt , channel A or B
 		TIMSK2 &= ~ (source ? (1 << OCIE2B) : (1 << OCIE2A));   // Disable timer interrupt , channel A or B
 	}
+
 	inline __attribute__((always_inline))
 	void pause(void) {                   				  // Disable timer clock , not cleaning the counter
 		_timer2_clock = (TCCR2B & 0x07);    // Save timer clock settings
 		TCCR2B = (TCCR2B & 0xF8);       	// Clear timer clock bits
 	}
+
 	inline __attribute__((always_inline))
 	void resume(void) {                 				      // Return clock timer settings
 		TCCR2B = ((TCCR2B & 0xF8) |  _timer2_clock);  // Return clock timer settings
 	}
+
 	inline __attribute__((always_inline))
 	void stop(void) {                     				  // Disable timer clock , and cleaning the counter
-		Timer_2::pause();
+		this->pause();
 		TCNT2 = 0x00;             // Clear timer counter
 	}
+
 	inline __attribute__((always_inline))
 	void restart(void) {                  				  // Return clock timer settings & reset counter
-		Timer_2::resume();
+		this->resume();
 		TCNT2 = 0x00;
 	}
+
 	inline __attribute__((always_inline))
 	void setDefault(void) {                  			  // Set default timer settings
 		TCCR2A = 0x01;  // Phasecorrect PWM , 8 bit
@@ -401,6 +409,7 @@ public:
 		OCR2A = 0x00;   // Clear COMPB
 		TCNT2 = 0x00;   // Clear counter
 	}
+
 	inline __attribute__((always_inline))
 	void outputEnable(uint8_t channel, uint8_t mode) {	  // Enable and configurate timer hardware output
 		switch (channel) {
@@ -424,6 +433,7 @@ public:
 			return;
 		}
 	}
+
 	inline __attribute__((always_inline))
 	void outputState(uint8_t channel, bool state) {		  // Set High / Low on the timer output  
 		switch (channel) {
@@ -631,6 +641,7 @@ public:
 		Timer_4::pause();
 		TCNT4 = 0x00;             // Clear timer counter
 	}
+
 	inline __attribute__((always_inline))
 	void restart(void) {                        			  // Return clock timer settings & reset counter
 		Timer_4::resume();
@@ -741,6 +752,7 @@ public:
 			return;
 		}
 	}
+
 	inline __attribute__((always_inline))
 	void pause(void) {                  					  // Disable timer clock , not cleaning the counter
 		_timer5_clock = (TCCR5B & 0x07);    // Save timer clock settings
